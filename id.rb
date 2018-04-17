@@ -1,22 +1,15 @@
 #!/Users/gawain.reifsnyder/.rvm/rubies/ruby-2.2.2/bin/ruby
 
-class ImageTester
+class JpegTester
   def initialize
     files = `ls `.split(" ")
-    images = assemble(files)
-    add_ratio(images)
-
-    Calculator.calc_ratio(images)
-    puts images
+    image_stats = assemble(files)
+    Calculator.add_ratio(image_stats)
+    Calculator.calc_ratio(image_stats)
+    puts image_stats
   end
 
 private
-
-  def add_ratio(images)
-    images.each do |img|
-      img[:ratio] = (img[:size].to_f / (img[:width].to_f * img[:height].to_f)).round(3)
-    end
-  end
 
   def assemble(files)
     image_data = []
@@ -38,6 +31,12 @@ class Calculator
   ACCEPTABLE_MULTIPLIER = 1.2
   TOO_BIG_MULTIPLIER = 2
 
+  def self.add_ratio(images)
+    images.each do |img|
+      img[:ratio] = (img[:size].to_f / (img[:width].to_f * img[:height].to_f)).round(3)
+    end
+  end
+
   def self.calc_ratio(images)
     images.each do |img|
       actual_ratio = img[:ratio]
@@ -56,4 +55,4 @@ class Calculator
   end
 end
 
-hash_assembler = ImageTester.new
+image_tester = JpegTester.new
